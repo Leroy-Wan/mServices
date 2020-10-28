@@ -1,13 +1,53 @@
 #!/usr/bin/python3
 # coding: utf-8
 import tornado.web
+from tornado.httputil import HTTPServerRequest
 from tornado.ioloop import IOLoop
 import tornado.options as options
 
+# http://localhost:9000/?wd=python&title=%E7%9C%8B&title=lk&title=%E5%8A%A0
 class IndexHandler(tornado.web.RequestHandler):
     def get(self):
         # 请求参数读取
+        # 1. 读取单个参数
+        wd = self.get_argument('wd')
+        print(wd)
+
+        # 2. 读取多个参数名相同的参数值
+        titles = self.get_arguments('title')
+
+        # 3. 从查询参数中读取url路径参数
+        wd2 = self.get_query_argument('wd')
+        print(wd2)
+        titles2 = self.get_query_arguments('title')
+        print(titles2)
+
+        print(titles)
+
+        # 4. 从请求对象中读取参数
+        req: HTTPServerRequest = self.request
+
+        # request请求中的数据都是dict字典类型
+        wd3 = req.arguments.get('wd')
+        print(wd3)  # 字典key对应的value都是bytes字节类型
+
+        wd4 = req.query_arguments.get('wd')
+        print(wd4)
+
+
         self.write('<h3>我是主页</h3>')
+
+    def post(self):
+        # 新增数据
+        self.get_arguments('name', 'city')
+        self.write('<h3>我是POST请求方式</h3>')
+
+    def put(self):
+        self.write('<h3>我是PUT请求方式</h3>')
+
+    def delete(self):
+        self.write('<h3>我是DELETE请求方式</h3>')
+
 
 def make_app():
     return tornado.web.Application([
