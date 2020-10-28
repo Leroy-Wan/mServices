@@ -24,7 +24,7 @@ class TestTornadoRequest(TestCase):
         url = self.base_url + '/'
         # 发起post请求，表单参数使用data来指定
         resp = requests.post(url, data={
-            'name': '高超',
+            'name': '万新建',
             'city': '北京'
         })
         print(resp.text)
