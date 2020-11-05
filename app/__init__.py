@@ -1,16 +1,49 @@
-import tornado
-import tornado.web
+#!/usr/bin/python3
+# coding: utf-8
+import os
 
-from app.views.cookie_v import CookieHandler
-from app.views.index_v import IndexHandler
-from app.views.order_v import OrderHandler
-from app.views.search_v import SearchHandler
+from tornado.web import Application
 
+# from app.ui.menu import MenuModule
+# from app.ui.nav import NavModule
+from app.ui.menu import MenuModule
+from app.ui.nav import NavModule
+from app.views.cookie import CookieHandler
+from app.views.index import IndexHandler
+from app.views.order import OrderHandler
+from app.views.search import SearchHandler
+# from app.views.download import DownloadHandler, AsyncDownloadHandler, Async2DownloadHandler
+# from app.views.message import RobbitHandler, MessageHandler
+# from app.views.user import UserHandler
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # /Users/apple/PycharmProjects/mircoServer
+
+settings = {
+    'debug': True,
+    'template_path': os.path.join(BASE_DIR, 'templates'),
+    'static_path': os.path.join(BASE_DIR, 'static'),
+    'static_url_prefix': '/s/',
+    'ui_modules': {
+        'Nav': NavModule,
+        'Menu': MenuModule
+    },
+    'cookie_secret': '&7d7aldaqaj0019@ak',
+    'xsrf_cookies': True
+}
 
 def make_app(host='localhost'):
-    return tornado.web.Application([
+    return Application(handlers=[
         ('/', IndexHandler),
         ('/search', SearchHandler),
         ('/cookie', CookieHandler),
-        (r'/order/(?P<code>\d+)/(?P<id>\d+)', OrderHandler)  # 使用正则传参了,按照分组名称传参
-    ], default_host=host)
+        # ('/download', DownloadHandler),
+        # ('/download2', AsyncDownloadHandler),
+        # ('/download3', Async2DownloadHandler),
+        # ('/robbit', RobbitHandler),
+        # ('/message', MessageHandler),
+        # ('/login', UserHandler),
+        (r'/order/(?P<code>\d+)/(?P<id>\d+)', OrderHandler),
+
+    ], default_host=host, **settings)
+
+
