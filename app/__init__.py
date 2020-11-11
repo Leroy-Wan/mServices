@@ -12,7 +12,7 @@ from app.views.cookie import CookieHandler
 from app.views.index import IndexHandler
 from app.views.order import OrderHandler
 from app.views.search import SearchHandler
-# from app.views.download import DownloadHandler, AsyncDownloadHandler, Async2DownloadHandler
+from app.views.download import DownloadHandler, AsyncDownloadHandler, Async2DownloadHandler
 # from app.views.message import RobbitHandler, MessageHandler
 # from app.views.user import UserHandler
 
@@ -36,9 +36,9 @@ def make_app(host='localhost'):
         ('/', IndexHandler),
         ('/search', SearchHandler),
         ('/cookie', CookieHandler),
-        # ('/download', DownloadHandler),
-        # ('/download2', AsyncDownloadHandler),
-        # ('/download3', Async2DownloadHandler),
+        ('/download', DownloadHandler),
+        ('/download2', AsyncDownloadHandler),
+        ('/download3', Async2DownloadHandler),
         # ('/robbit', RobbitHandler),
         # ('/message', MessageHandler),
         # ('/login', UserHandler),
